@@ -33,11 +33,13 @@ public class SwiftBackgroundLocationPlugin: NSObject, FlutterPlugin, CLLocationM
             let args = call.arguments as? Dictionary<String, Any>
             let distanceFilter = args?["distance_filter"] as? Double
             SwiftBackgroundLocationPlugin.locationManager?.distanceFilter = distanceFilter ?? 0
-            
+
+            SwiftBackgroundLocationPlugin.locationManager?.startMonitoringSignificantLocationChanges()
             SwiftBackgroundLocationPlugin.locationManager?.startUpdatingLocation() 
         } else if (call.method == "stop_location_service") {
             SwiftBackgroundLocationPlugin.channel?.invokeMethod("location", arguments: "stop_location_service")
             SwiftBackgroundLocationPlugin.locationManager?.stopUpdatingLocation()
+            SwiftBackgroundLocationPlugin.locationManager?.stopMonitoringSignificantLocationChanges()
         }
         result(true)
     }
